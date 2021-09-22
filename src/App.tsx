@@ -2,6 +2,8 @@ import { useState } from "react"
 //"hoist-non-react-statics/node_modules/@types/react";
 import { useQuery } from "react-query";
 //components
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import IconButton from '@material-ui/core/IconButton';
 import Item from "./item/item";
 import Drawer from "@material-ui/core/Drawer"
 import Cart from "./Cart/Cart";
@@ -10,7 +12,7 @@ import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart"
 import Badge from "@material-ui/core/Badge"
 import LinearProgress from "@material-ui/core/LinearProgress"
 //styles
-import { Wrapper, StyledButton} from "./App.styles";
+import { Wrapper, StyledButton } from "./App.styles";
 import { CartItemType } from "./type";
 
 
@@ -29,12 +31,12 @@ const App = () => {
   )
 
   const getTotalItems = (items: CartItemType[]) =>
-  items.reduce((ack: number, item) => ack + item.amount, 0)
-  
+    items.reduce((ack: number, item) => ack + item.amount, 0)
+
 
   const handleAddToCart = (clickedItem: CartItemType) => {
     setCartItems(prev => {
-      
+
       const isItemInCart = prev.find(item => item.id === clickedItem.id);
 
       if (isItemInCart) {
@@ -44,22 +46,25 @@ const App = () => {
             : item
         );
       }
-      
+
       return [...prev, { ...clickedItem, amount: 1 }];
     });
   }
 
-  const handleRemoveFromCart = (id:number) => {
-    setCartItems(prev=>(
-      prev.reduce((ack,item)=>{
-        if(item.id===id) {
-          if(item.amount===1) return ack
-          return [...ack, {...item, amount: item.amount-1}]
-      } else{
+  const handleRemoveFromCart = (id: number) => {
+    setCartItems(prev => (
+      prev.reduce((ack, item) => {
+        if (item.id === id) {
+          if (item.amount === 1) return ack
+          return [...ack, { ...item, amount: item.amount - 1 }]
+        } else {
           return [...ack, item]
-      }
-    }, [] as CartItemType[])
+        }
+      }, [] as CartItemType[])
     ))
+  }
+  const handleDrawerClose = () => {
+    setCartOpen(false);
   }
 
   if (isLoading) return <LinearProgress />
@@ -68,6 +73,9 @@ const App = () => {
   return (
     <Wrapper>
       <Drawer anchor='right' open={cartOpen} onClose={() => setCartOpen(false)}>
+        <IconButton onClick={handleDrawerClose}>
+          <ChevronRightIcon />
+        </IconButton>
         <Cart
           cartItems={cartItems}
           addToCart={handleAddToCart}

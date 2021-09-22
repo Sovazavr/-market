@@ -1,13 +1,18 @@
 import { Button } from "@material-ui/core";
 
 import { CartItemType, CartItemProps } from "../type";
+import Typography from '@material-ui/core/Typography';
 
 import { Wrapper } from "./CartItem.styles";
 
-const CartItem: React.FC<CartItemProps> = ({item, addToCart,removeFromCart}) => (
-    <Wrapper>
+const CartItem: React.FC<CartItemProps> = ({ item, addToCart, removeFromCart }) => (
+  <Wrapper>
     <div>
-      <h3>{item.title}</h3>
+      <Typography variant="h6" gutterBottom>
+        {item.title}
+      </Typography>
+      {/* <h3></h3> */}
+      <img src={item.image} alt={item.title} />
       <div className='information'>
         <p>Price: ${item.price}</p>
         <p>Total: ${(item.amount * item.price).toFixed(2)}</p>
@@ -32,7 +37,7 @@ const CartItem: React.FC<CartItemProps> = ({item, addToCart,removeFromCart}) => 
         </Button>
       </div>
     </div>
-    <img src={item.image} alt={item.title} />
+
   </Wrapper>
 )
 
